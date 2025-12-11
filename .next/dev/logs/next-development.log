@@ -1,0 +1,73 @@
+[00:00:02.559] Server  LOG      ✓ Ready in 1509ms
+[00:00:05.727] Server  LOG      ○ Compiling / ...
+[00:00:07.588] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:35:23.991] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:41:32.514] Server  LOG      ✓ Compiled in 51ms
+[00:41:40.688] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:42:21.569] Server  LOG      ✓ Compiled in 6ms
+[00:42:25.920] Server  LOG      ✓ Compiled in 16ms
+[00:42:26.465] Server  LOG      ✓ Compiled in 41ms
+[00:42:26.796] Server  LOG      ✓ Compiled in 20ms
+[00:42:26.968] Server  LOG      ✓ Compiled in 12ms
+[00:42:27.978] Browser ERROR   ./app/page.js:82:19
+Parsing ecmascript source code failed
+  80 |       <AddTaskForm onAdd={addTask} />
+  81 |
+> 82 |       <h2>Pending Tasks</h2>
+     |                   ^^^^^
+  83 |       {pendingTasks.length ? (
+  84 |         pendingTasks.map((task) => (
+  85 |           <TaskCard
+
+Expected '</', got 'Tasks'
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+[00:42:27.978] Browser ERROR   ./app/page.js:79:8
+Parsing ecmascript source code failed
+  77 |       </h1>
+  78 |
+> 79 |       {/
+     |        ^
+  80 |       <AddTaskForm onAdd={addTask} />
+  81 |
+  82 |       <h2>Pending Tasks</h2>
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+[00:42:27.978] Browser ERROR   ./app/page.js:82:19
+Parsing ecmascript source code failed
+  80 |       <AddTaskForm onAdd={addTask} />
+  81 |
+> 82 |       <h2>Pending Tasks</h2>
+     |                   ^^^^^
+  83 |       {pendingTasks.length ? (
+  84 |         pendingTasks.map((task) => (
+  85 |           <TaskCard
+
+Expected '</', got 'Tasks'
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+[00:44:35.723] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:44:41.369] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold

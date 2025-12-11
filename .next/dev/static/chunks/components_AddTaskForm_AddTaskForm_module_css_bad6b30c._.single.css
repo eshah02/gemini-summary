@@ -1,0 +1,29 @@
+/* [project]/components/AddTaskForm/AddTaskForm.module.css [app-client] (css) */
+.AddTaskForm-module__xtYLfq__form {
+  gap: 10px;
+  margin-bottom: 20px;
+  display: flex;
+}
+
+.AddTaskForm-module__xtYLfq__input {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  flex: 1;
+  padding: 10px;
+}
+
+.AddTaskForm-module__xtYLfq__button {
+  color: #fff;
+  cursor: pointer;
+  background-color: #007bff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 15px;
+  transition: background .2s;
+}
+
+.AddTaskForm-module__xtYLfq__button:hover {
+  background-color: #0056b3;
+}
+
+/*# sourceMappingURL=components_AddTaskForm_AddTaskForm_module_css_bad6b30c._.single.css.map*/

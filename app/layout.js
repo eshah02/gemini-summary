@@ -1,4 +1,3 @@
-import './globals.css'; 
 export const metadata = {
   title: 'Todo App',
   description: 'full-stack Todo application with Gemini summary.',

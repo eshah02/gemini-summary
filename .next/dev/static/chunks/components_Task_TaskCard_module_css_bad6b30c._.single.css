@@ -1,0 +1,49 @@
+/* [project]/components/Task/TaskCard.module.css [app-client] (css) */
+.TaskCard-module__Bh55vW__card {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  padding: 15px;
+  display: flex;
+}
+
+.TaskCard-module__Bh55vW__done {
+  background: #e0ffe0;
+  text-decoration: line-through;
+}
+
+.TaskCard-module__Bh55vW__summary {
+  color: #555;
+  font-size: .9rem;
+}
+
+.TaskCard-module__Bh55vW__actions button {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  margin-left: 5px;
+  padding: 5px 10px;
+}
+
+.TaskCard-module__Bh55vW__toggle {
+  color: #fff;
+  background-color: #28a745;
+}
+
+.TaskCard-module__Bh55vW__toggle:hover {
+  background-color: #1e7e34;
+}
+
+.TaskCard-module__Bh55vW__delete {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.TaskCard-module__Bh55vW__delete:hover {
+  background-color: #a71d2a;
+}
+
+/*# sourceMappingURL=components_Task_TaskCard_module_css_bad6b30c._.single.css.map*/

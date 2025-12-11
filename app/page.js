@@ -1,101 +1,112 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import AddTaskForm from '@/components/AddTaskForm/AddTaskForm.js';
-import TaskCard from '@/components/Task/TaskCard.js';
-async function getTasks() {
-  const res = await fetch('/api/tasks', {
-    cache: 'no-store' 
-  });
+import React, { useEffect, useState } from "react";
+import AddTaskForm from "../components/AddTaskForm/AddTaskForm";
+import TaskCard from "../components/Task/TaskCard";
 
-  if (!res.ok) {
-    throw new Error('Failed to fetch tasks');
-  }
-
-  return res.json();
-}
 export default function Home() {
   const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+
+  // Fetch all tasks
+  const fetchTasks = async () => {
+    try {
+      const res = await fetch("/api/tasks");
+      const data = await res.json();
+      setTasks(data);
+    } catch (error) {
+      console.error("Fetch tasks error:", error);
+    }
+  };
+
+  // Add task (WITH summary auto-generation)
+  const addTask = async (title) => {
+    try {
+      await fetch("/api/tasks", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title,
+          description: "" // required because summary API accepts it
+        }),
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error("Add task error:", error);
+    }
+  };
+
+  // Toggle task state
+  const toggleTask = async (id, done) => {
+    try {
+      await fetch("/api/tasks", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, done }),
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error("Toggle error:", error);
+    }
+  };
+
+  // Delete task
+  const deleteTask = async (id) => {
+    try {
+      await fetch("/api/tasks", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id }),
+      });
+      fetchTasks();
+    } catch (error) {
+      console.error("Delete error:", error);
+    }
+  };
+
   useEffect(() => {
-    const loadTasks = async () => {
-      try {
-        const initialTasks = await getTasks();
-        setTasks(initialTasks);
-      } catch (e) {
-        setError('Could not load Task.');
-        console.error(e);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadTasks();
+    fetchTasks();
   }, []);
-  const handleTaskAdded = (newTask) => {
-    setTasks(prevTasks => [newTask, ...prevTasks.filter(t => t._id !== newTask._id)]);
-  };
 
-  const handleTaskUpdated = (_id, isDone) => {
-    setTasks(prevTasks => {
-      const updatedTasks = prevTasks.map(task =>
-        task._id === _id ? { ...task, isDone: isDone } : task
-      );
-      return updatedTasks.sort((a, b) => (a.isDone === b.isDone) ? 0 : a.isDone ? 1 : -1);
-    });
-  };
-
-  const handleTaskDeleted = (_id) => {
-    setTasks(prevTasks => prevTasks.filter(task => task._id !== _id));
-  };
-
-
-  if (loading) return <div style={{ padding: '20px', textAlign: 'center' }}>Loading tasks...</div>;
-  if (error) return <div style={{ padding: '20px', color: 'white', backgroundColor: '#ff6347', textAlign: 'center' }}>❌ Error: {error}</div>;
-
-  const incompleteTasks = tasks.filter(t => !t.isDone);
-  const completedTasks = tasks.filter(t => t.isDone);
-
+  const pendingTasks = tasks.filter((t) => !t.done);
+  const completedTasks = tasks.filter((t) => t.done);
 
   return (
-    <div style={{ maxWidth: '700px', margin: '50px auto', padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1 style={{ textAlign: 'center', borderBottom: '2px solid #0070f3', paddingBottom: '10px' }}>
-        Todo App 
+    <div style={{ maxWidth: "600px", margin: "50px auto", padding: "0 20px" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+        Todo App with Gemini
       </h1>
 
-      <AddTaskForm onTaskAdded={handleTaskAdded} />
-      <h2>Pending Tasks ({incompleteTasks.length})</h2>
-      <div style={{ minHeight: '100px', border: '1px dashed #ccc', padding: '10px', borderRadius: '8px' }}>
-        {incompleteTasks.length > 0 ? (
-          incompleteTasks.map(task => (
-            <TaskCard
-              key={task._id}
-              task={task}
-              onTaskUpdated={handleTaskUpdated}
-              onTaskDeleted={handleTaskDeleted}
-            />
-          ))
-        ) : (
-          <p style={{ textAlign: 'center', color: '#999', padding: '20px' }}>No pending tasks! Time to relax.</p>
-        )}
-      </div>
+      
+      <AddTaskForm onAdd={addTask} />
 
-      {completedTasks.length > 0 && (
-        <>
-          <h2 style={{ marginTop: '30px' }}>Completed Tasks ({completedTasks.length})</h2>
-          <div style={{ border: '1px dashed #ccc', padding: '10px', borderRadius: '8px' }}>
-            {completedTasks.map(task => (
-              <TaskCard
-                key={task._id}
-                task={task}
-                onTaskUpdated={handleTaskUpdated}
-                onTaskDeleted={handleTaskDeleted}
-              />
-            ))}
-          </div>
-        </>
+      <h2>Pending Tasks</h2>
+      {pendingTasks.length ? (
+        pendingTasks.map((task) => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
+          />
+        ))
+      ) : (
+        <p>No pending tasks</p>
       )}
 
+      {/* Completed Tasks */}
+      <h2 style={{ marginTop: "40px" }}>Completed Tasks</h2>
+      {completedTasks.length ? (
+        completedTasks.map((task) => (
+          <TaskCard
+            key={task._id}
+            task={task}
+            onToggle={toggleTask}
+            onDelete={deleteTask}
+          />
+        ))
+      ) : (
+        <p>No completed tasks</p>
+      )}
     </div>
   );
 }

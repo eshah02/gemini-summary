@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/components/AddTaskForm/AddTaskForm.module.css"],"sourcesContent":[".form {\r\n  display: flex;\r\n  gap: 10px;\r\n  margin-bottom: 20px;\r\n}\r\n\r\n.input {\r\n  flex: 1;\r\n  padding: 10px;\r\n  border-radius: 6px;\r\n  border: 1px solid #ccc;\r\n}\r\n\r\n.button {\r\n  background-color: #007bff;\r\n  color: white;\r\n  border: none;\r\n  padding: 10px 15px;\r\n  border-radius: 6px;\r\n  cursor: pointer;\r\n  transition: background 0.2s;\r\n}\r\n\r\n.button:hover {\r\n  background-color: #0056b3;\r\n}\r\n"],"names":[],"mappings":"AAAA;;;;;;AAMA;;;;;;;AAOA;;;;;;;;;;AAUA"}}]
+}

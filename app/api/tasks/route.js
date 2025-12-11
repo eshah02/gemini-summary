@@ -1,139 +1,102 @@
-import clientPromise from '@/lib/mongodb.js';
-import { NextResponse } from 'next/server';
-import { ObjectId } from 'mongodb';
+import { NextResponse } from "next/server";
+import clientPromise from "../../../lib/mongodb";
+import { ObjectId } from "mongodb";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const DB_NAME = process.env.TODODB || 'NextTodo';
-async function generateSummary(title, description) {
-    const baseUrl = process.env.NODE_ENV === 'production' 
-        ? 'YOUR_PRODUCTION_DOMAIN_HERE' 
-        : 'http://localhost:3000';
-    
-    try {
-        const summaryRes = await fetch(`${baseUrl}/api/summary`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description }),
-        });
+const API_KEY = process.env.GEMINI_API_KEY;
+const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
-        if (!summaryRes.ok) {
-            console.error("Failed to fetch summary from internal API. Status:", summaryRes.status);
-            return 'Summary generation failed (API status error).';
-        }
-
-        const data = await summaryRes.json();
-        return data.summary;
-    } catch (e) {
-        console.error("Failed to fetch summary internally:", e);
-        return 'Summary generation failed (Network error).';
-    }
-}
-// GET
+// GET ALL TASKS
 export async function GET() {
   try {
     const client = await clientPromise;
-    const db = client.db(DB_NAME);
+    const db = client.db("TodoDB");
 
-    const tasks = await db.collection('tasks').find({}).toArray();
+    const tasks = await db.collection("tasks").find({}).toArray();
 
-    const serializedTasks = tasks.map(task => ({
-        ...task,
-        _id: task._id.toString(),
-    }));
-
-    return NextResponse.json(serializedTasks, { status: 200 });
-
+    return NextResponse.json(tasks);
   } catch (error) {
-    console.error("GET Error:", error);
-    return NextResponse.json({ message: 'Error fetching tasks' }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// POST
+// ADD TASK WITH SUMMARY
 export async function POST(request) {
   try {
-    const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const body = await request.json();
+    const { title, description = "" } = await request.json();
 
-    if (!body.title) {
-        return NextResponse.json({ message: 'Title is required' }, { status: 400 });
+    if (!title)
+      return NextResponse.json({ error: "Title is required" }, { status: 400 });
+
+    // --- Generate Summary (Gemini 2.5 Flash) ---
+    let summary = "Summary not available";
+    if (genAI) {
+      try {
+        const prompt = `
+          Generate a concise one-sentence summary for this task:
+          Title: "${title}"
+          Details: "${description}"
+        `;
+
+        const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+        const result = await model.generateContent(prompt);
+        summary = result.response.text();
+      } catch (err) {
+        console.error("Gemini Error:", err);
+      }
     }
 
-    const summaryText = await generateSummary(body.title, body.description);
-    
+    // --- Insert into MongoDB ---
+    const client = await clientPromise;
+    const db = client.db("TodoDB");
+
     const newTask = {
-      title: body.title,
-      description: body.description || '',
-      isDone: false,
+      title,
+      description,
+      summary,
+      done: false,
       createdAt: new Date(),
-      summary: summaryText, 
     };
 
-    const result = await db.collection('tasks').insertOne(newTask);
+    const result = await db.collection("tasks").insertOne(newTask);
 
-    return NextResponse.json({
-        ...newTask,
-        _id: result.insertedId.toString()
-    }, { status: 201 });
-
+    return NextResponse.json({ ...newTask, _id: result.insertedId });
   } catch (error) {
-    console.error("POST Error:", error);
-    return NextResponse.json({ message: 'Error creating task' }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-//Update Task
-export async function PATCH(request) {
+// UPDATE TASK (DONE)
+export async function PUT(request) {
   try {
+    const { id, done } = await request.json();
+
     const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const url = new URL(request.url);
-    const id = url.searchParams.get('id');
-    const body = await request.json();
+    const db = client.db("TodoDB");
 
-    if (!id || typeof body.isDone === 'undefined') {
-        return NextResponse.json({ message: 'Task ID and new status are required' }, { status: 400 });
-    }
-
-    const result = await db.collection('tasks').updateOne(
+    await db.collection("tasks").updateOne(
       { _id: new ObjectId(id) },
-      { $set: { isDone: body.isDone } }
+      { $set: { done } }
     );
 
-    if (result.matchedCount === 0) {
-        return NextResponse.json({ message: 'Task not found' }, { status: 404 });
-    }
-
-    return NextResponse.json({ message: 'Task updated successfully' }, { status: 200 });
-
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("PATCH Error:", error);
-    return NextResponse.json({ message: 'Error updating task' }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
-// DELETE
+// DELETE TASK
 export async function DELETE(request) {
   try {
+    const { id } = await request.json();
+
     const client = await clientPromise;
-    const db = client.db(DB_NAME);
-    const url = new URL(request.url);
-    const id = url.searchParams.get('id');
+    const db = client.db("TodoDB");
 
-    if (!id) {
-        return NextResponse.json({ message: 'Task ID is required' }, { status: 400 });
-    }
+    await db.collection("tasks").deleteOne({ _id: new ObjectId(id) });
 
-    const result = await db.collection('tasks').deleteOne({ _id: new ObjectId(id) });
-
-    if (result.deletedCount === 0) {
-        return NextResponse.json({ message: 'Task not found' }, { status: 404 });
-    }
-
-    return NextResponse.json({ message: 'Task deleted successfully' }, { status: 200 });
-
+    return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("DELETE Error:", error);
-    return NextResponse.json({ message: 'Error deleting task' }, { status: 500 });
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
