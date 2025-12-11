@@ -71,3 +71,90 @@ Import traces:
     ./app/page.js [Server Component]
 [00:44:35.723] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
 [00:44:41.369] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:57:48.263] Server  LOG      ✓ Compiled in 45ms
+[00:57:48.713] Server  LOG      ✓ Compiled in 41ms
+[00:57:55.467] Server  LOG      ✓ Compiled in 35ms
+[00:58:00.755] Server  LOG      ✓ Compiled in 45ms
+[00:58:01.208] Server  LOG      ✓ Compiled in 39ms
+[00:58:04.400] Server  LOG      ✓ Compiled in 47ms
+[00:58:04.913] Server  LOG      ✓ Compiled in 46ms
+[00:58:04.978] Server  LOG      ✓ Compiled in 11ms
+[00:58:05.091] Server  LOG      ✓ Compiled in 9ms
+[00:58:05.167] Server  LOG      ✓ Compiled in 70ms
+[00:58:05.275] Server  LOG      ✓ Compiled in 13ms
+[00:58:05.338] Server  LOG      ✓ Compiled in 10ms
+[00:58:05.432] Server  LOG      ✓ Compiled in 39ms
+[00:58:05.493] Server  LOG      ✓ Compiled in 8ms
+[00:58:05.573] Server  LOG      ✓ Compiled in 8ms
+[00:58:05.619] Server  LOG      ✓ Compiled in 7ms
+[00:58:05.681] Server  LOG      ✓ Compiled in 10ms
+[00:58:05.792] Server  LOG      ✓ Compiled in 13ms
+[00:58:05.917] Server  LOG      ✓ Compiled in 9ms
+[00:58:06.106] Server  LOG      ✓ Compiled in 7ms
+[00:58:06.261] Server  LOG      ✓ Compiled in 8ms
+[00:58:06.402] Server  LOG      ✓ Compiled in 8ms
+[00:58:06.590] Server  LOG      ✓ Compiled in 6ms
+[00:58:06.793] Server  LOG      ✓ Compiled in 6ms
+[00:58:06.932] Server  LOG      ✓ Compiled in 10ms
+[00:58:07.075] Server  LOG      ✓ Compiled in 10ms
+[00:58:07.974] Browser ERROR   ./app/page.js:30:9
+Parsing ecmascript source code failed
+  28 |           title,
+  29 |           description: "" /
+> 30 |         }),
+     |         ^
+  31 |       });
+  32 |       fetchTasks();
+  33 |     } catch (error) {
+
+Expression expected
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+[00:58:11.427] Server  LOG      ✓ Compiled in 26ms
+[00:58:11.786] Server  LOG      ✓ Compiled in 6ms
+[00:58:14.284] Server  LOG      ✓ Compiled in 38ms
+[00:58:14.436] Server  LOG      ✓ Compiled in 9ms
+[00:58:15.023] Server  LOG      ✓ Compiled in 56ms
+[00:58:15.474] Server  LOG      ✓ Compiled in 47ms
+[00:58:15.552] Server  LOG      ✓ Compiled in 7ms
+[00:58:15.599] Server  LOG      ✓ Compiled in 6ms
+[00:58:15.770] Server  LOG      ✓ Compiled in 7ms
+[00:58:16.348] Server  LOG      ✓ Compiled in 46ms
+[00:58:16.393] Server  LOG      ✓ Compiled in 8ms
+[00:58:16.657] Server  LOG      ✓ Compiled in 55ms
+[00:58:16.829] Server  LOG      ✓ Compiled in 6ms
+[00:58:16.999] Server  LOG      ✓ Compiled in 7ms
+[00:58:17.186] Server  LOG      ✓ Compiled in 6ms
+[00:58:17.357] Server  LOG      ✓ Compiled in 10ms
+[00:58:17.976] Browser ERROR   ./app/page.js:38:3
+Parsing ecmascript source code failed
+  36 |   };
+  37 |
+> 38 |   /
+     |   ^
+  39 |   const toggleTask = async (id, done) => {
+  40 |     try {
+  41 |       await fetch("/api/tasks", {
+
+Unterminated regexp literal
+
+Import traces:
+  Client Component Browser:
+    ./app/page.js [Client Component Browser]
+    ./app/page.js [Server Component]
+
+  Client Component SSR:
+    ./app/page.js [Client Component SSR]
+    ./app/page.js [Server Component]
+[00:58:18.943] Server  LOG      ✓ Compiled in 50ms
+[00:58:20.234] Server  LOG      ✓ Compiled in 40ms
+[00:58:34.528] Server  LOG      ✓ Compiled in 51ms
+[00:58:35.168] Server  LOG      ✓ Compiled in 50ms
+[00:58:45.748] Server  LOG      ✓ Compiled in 11ms

@@ -7,7 +7,7 @@ import TaskCard from "../components/Task/TaskCard";
 export default function Home() {
   const [tasks, setTasks] = useState([]);
 
-  // Fetch all tasks
+  // fetch all tasks
   const fetchTasks = async () => {
     try {
       const res = await fetch("/api/tasks");
@@ -18,7 +18,7 @@ export default function Home() {
     }
   };
 
-  // Add task (WITH summary auto-generation)
+  // add task
   const addTask = async (title) => {
     try {
       await fetch("/api/tasks", {
@@ -26,7 +26,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
-          description: "" // required because summary API accepts it
+          description: "",
         }),
       });
       fetchTasks();
@@ -34,8 +34,6 @@ export default function Home() {
       console.error("Add task error:", error);
     }
   };
-
-  // Toggle task state
   const toggleTask = async (id, done) => {
     try {
       await fetch("/api/tasks", {
@@ -76,7 +74,6 @@ export default function Home() {
         Todo App with Gemini
       </h1>
 
-      
       <AddTaskForm onAdd={addTask} />
 
       <h2>Pending Tasks</h2>
@@ -92,8 +89,6 @@ export default function Home() {
       ) : (
         <p>No pending tasks</p>
       )}
-
-      {/* Completed Tasks */}
       <h2 style={{ marginTop: "40px" }}>Completed Tasks</h2>
       {completedTasks.length ? (
         completedTasks.map((task) => (

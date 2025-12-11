@@ -6,7 +6,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 const API_KEY = process.env.GEMINI_API_KEY;
 const genAI = API_KEY ? new GoogleGenerativeAI(API_KEY) : null;
 
-// GET ALL TASKS
+// GET all task
 export async function GET() {
   try {
     const client = await clientPromise;
@@ -20,7 +20,7 @@ export async function GET() {
   }
 }
 
-// ADD TASK WITH SUMMARY
+// task and summary
 export async function POST(request) {
   try {
     const { title, description = "" } = await request.json();
@@ -28,7 +28,7 @@ export async function POST(request) {
     if (!title)
       return NextResponse.json({ error: "Title is required" }, { status: 400 });
 
-    // --- Generate Summary (Gemini 2.5 Flash) ---
+    // generate summary
     let summary = "Summary not available";
     if (genAI) {
       try {
@@ -45,8 +45,6 @@ export async function POST(request) {
         console.error("Gemini Error:", err);
       }
     }
-
-    // --- Insert into MongoDB ---
     const client = await clientPromise;
     const db = client.db("TodoDB");
 
@@ -66,7 +64,7 @@ export async function POST(request) {
   }
 }
 
-// UPDATE TASK (DONE)
+// update task
 export async function PUT(request) {
   try {
     const { id, done } = await request.json();
@@ -85,7 +83,7 @@ export async function PUT(request) {
   }
 }
 
-// DELETE TASK
+// delete task
 export async function DELETE(request) {
   try {
     const { id } = await request.json();

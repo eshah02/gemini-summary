@@ -170,7 +170,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Task$2f$TaskCa
 ;
 function Home() {
     const [tasks, setTasks] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])([]);
-    // Fetch all tasks
+    // fetch all tasks
     const fetchTasks = async ()=>{
         try {
             const res = await fetch("/api/tasks");
@@ -180,7 +180,7 @@ function Home() {
             console.error("Fetch tasks error:", error);
         }
     };
-    // Add task (WITH summary auto-generation)
+    // add task
     const addTask = async (title)=>{
         try {
             await fetch("/api/tasks", {
@@ -190,7 +190,7 @@ function Home() {
                 },
                 body: JSON.stringify({
                     title,
-                    description: "" // required because summary API accepts it
+                    description: ""
                 })
             });
             fetchTasks();
@@ -198,7 +198,6 @@ function Home() {
             console.error("Add task error:", error);
         }
     };
-    // Toggle task state
     const toggleTask = async (id, done)=>{
         try {
             await fetch("/api/tasks", {
@@ -253,21 +252,21 @@ function Home() {
                 children: "Todo App with Gemini"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 75,
+                lineNumber: 73,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$AddTaskForm$2f$AddTaskForm$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
                 onAdd: addTask
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 80,
+                lineNumber: 77,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
                 children: "Pending Tasks"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 82,
+                lineNumber: 79,
                 columnNumber: 7
             }, this),
             pendingTasks.length ? pendingTasks.map((task)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Task$2f$TaskCard$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -276,13 +275,13 @@ function Home() {
                     onDelete: deleteTask
                 }, task._id, false, {
                     fileName: "[project]/app/page.js",
-                    lineNumber: 85,
+                    lineNumber: 82,
                     columnNumber: 11
                 }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 children: "No pending tasks"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 93,
+                lineNumber: 90,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -292,7 +291,7 @@ function Home() {
                 children: "Completed Tasks"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 97,
+                lineNumber: 92,
                 columnNumber: 7
             }, this),
             completedTasks.length ? completedTasks.map((task)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$components$2f$Task$2f$TaskCard$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -301,19 +300,19 @@ function Home() {
                     onDelete: deleteTask
                 }, task._id, false, {
                     fileName: "[project]/app/page.js",
-                    lineNumber: 100,
+                    lineNumber: 95,
                     columnNumber: 11
                 }, this)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                 children: "No completed tasks"
             }, void 0, false, {
                 fileName: "[project]/app/page.js",
-                lineNumber: 108,
+                lineNumber: 103,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/app/page.js",
-        lineNumber: 74,
+        lineNumber: 72,
         columnNumber: 5
     }, this);
 }
