@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./AddTaskForm.module.css";
 
-export default function AddTaskForm({ onAdd }) {
+export default function AddTaskForm({ onAdd, loading }) {
   const [title, setTitle] = useState("");
 
   const handleSubmit = async (e) => {
@@ -20,8 +20,15 @@ export default function AddTaskForm({ onAdd }) {
         placeholder="Enter new task..."
         onChange={(e) => setTitle(e.target.value)}
         className={styles.input}
+        disabled={loading} 
       />
-      <button type="submit" className={styles.button}>Add Task</button>
+      <button
+        type="submit"
+        className={styles.button}
+        disabled={loading}
+      >
+        {loading ? "Adding..." : "Add Task"} 
+      </button>
     </form>
   );
 }
