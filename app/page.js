@@ -6,6 +6,7 @@ import TaskCard from "../components/Task/TaskCard";
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
+  const [loading, setLoading] = useState(false); 
 
   // fetch all tasks
   const fetchTasks = async () => {
@@ -21,7 +22,9 @@ export default function Home() {
   // add task
   const addTask = async (title) => {
     try {
-      await fetch("/api/tasks", {
+      setLoading(true);
+
+      const res = await fetch("/api/tasks", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -29,11 +32,23 @@ export default function Home() {
           description: "",
         }),
       });
+
+      setLoading(false); 
+
+      if (res.ok) {
+        alert("Task added successfully!");
+      } else {
+        alert("Error adding task");
+      }
+
       fetchTasks();
     } catch (error) {
+      setLoading(false);
       console.error("Add task error:", error);
+      alert("Failed to add!");
     }
   };
+
   const toggleTask = async (id, done) => {
     try {
       await fetch("/api/tasks", {
@@ -47,7 +62,6 @@ export default function Home() {
     }
   };
 
-  // Delete task
   const deleteTask = async (id) => {
     try {
       await fetch("/api/tasks", {
@@ -74,7 +88,13 @@ export default function Home() {
         Todo App with Gemini
       </h1>
 
-      <AddTaskForm onAdd={addTask} />
+      <AddTaskForm onAdd={addTask} loading={loading} />
+
+      {loading && (
+        <p style={{ textAlign: "center", color: "blue", marginTop: "12px" }}>
+           Adding task, please wait...
+        </p>
+      )}
 
       <h2>Pending Tasks</h2>
       {pendingTasks.length ? (
@@ -89,6 +109,7 @@ export default function Home() {
       ) : (
         <p>No pending tasks</p>
       )}
+
       <h2 style={{ marginTop: "40px" }}>Completed Tasks</h2>
       {completedTasks.length ? (
         completedTasks.map((task) => (
